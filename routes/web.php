@@ -19,4 +19,11 @@ Route::get('/', function () {
 Route::get('test', function (){
    return 'It\'s working';
 });
-
+Route::get('user/{name}', function ($userName) {
+   return 'Hello user '. $userName;
+});
+Route::view('info', 'info');
+Route::get('news_{id?}', function ($id) {
+   return 'This is news № ' . $id;
+});
+Route::get('control/{role}/{login}', 'App\Http\Controllers\Admin\AdminController@getAdmin');
