@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\News\NewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,17 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [MainController::class, 'welcome'])
+    ->name('welcome');
+
+//Category
+Route::group(['prefix' => 'category'], function () {
+    Route::get('/', [NewsController::class, 'showAllCategory'])
+        ->name('news.category');
+    Route::get('/{name}', [NewsController::class, 'showCategoryNews'])
+        ->where('name', '\w+')
+        ->name('news.category_news');
+    Route::get('/{name}/{id}', [NewsController::class, 'showNews'])
+        ->where(['name' => '[A-z]+', 'id' => '\d+'])
+        ->name('news.news');
 });
-Route::get('test', function (){
-   return 'It\'s working';
-});
-Route::get('user/{name}', function ($userName) {
-   return 'Hello user '. $userName;
-});
-Route::view('info', 'info');
-Route::get('news_{id?}', function ($id) {
-   return 'This is news № ' . $id;
-});
-Route::get('control/{role}/{login}', 'App\Http\Controllers\Admin\AdminController@getAdmin');
+
+Route::get('/add_news', [NewsController::class, 'create'])
+    ->name('news.add');
