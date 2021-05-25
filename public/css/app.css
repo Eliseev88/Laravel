@@ -10828,9 +10828,19 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.content {
-    flex: 1 0 auto;
+html, body {
+  height: 100% !important;
 }
-.footer-shrink {
-    flex-shrink: 0;
+
+body {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.content {
+  flex: 1 0 auto !important;
+}
+
+.footer {
+  flex-shrink: 0 !important;
 }

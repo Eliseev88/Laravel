@@ -1,11 +1,7 @@
 @extends('layout')
 
 @section('title')
-    News №{{ $newsId }}
-@endsection
-
-@section('nav2')
-    active
+    News №{{ $newsId }} - @parent
 @endsection
 
 @section('content')

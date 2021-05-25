@@ -1,2 +1,16 @@
 //Bootstrap
 @import "~bootstrap/scss/bootstrap";
+
+html, body {
+    height: 100% !important;
+}
+body {
+    display: flex !important;
+    flex-direction: column !important;
+}
+.content {
+    flex: 1 0 auto !important;
+}
+.footer {
+    flex-shrink: 0 !important;
+}
