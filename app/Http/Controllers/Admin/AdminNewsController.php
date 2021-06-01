@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\News;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class NewsController extends Controller
+class AdminNewsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +25,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-
+        return view('admin.create_news');
     }
 
     /**
@@ -35,7 +36,15 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required']
+        ]);
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $fields = $request->only('title', 'description');
+        Storage::append('NewsFile/News.txt',
+            'Title: '. $title . " Description: " . $description . " Date: " . date("Y-m-d H:i:s"));
     }
 
     /**
@@ -81,28 +90,5 @@ class NewsController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function showAllCategory()
-    {
-        return view('news.category', [
-            'category' => $this->newsCategory,
-        ]);
-    }
-
-    public function showCategoryNews(string $name)
-    {
-        return view('news.category_news', [
-            'categoryName' => $name,
-            'categoryNews' => $this->newsList,
-        ]);
-    }
-
-    public function showNews(string $name, int $id)
-    {
-        return view(('news.news'), [
-           'newsId' => $id,
-            'categoryName' => $name,
-        ]);
     }
 }
