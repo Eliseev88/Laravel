@@ -6,7 +6,7 @@
 
 @section('content')
     <h1 class="text-center display-1">{{ $categoryName }}</h1>
-    @foreach($categoryNews as $key => $element)
-        <x-blocks.card url="{{ route('news.news', ['name' => $categoryName, 'id' => ++$key]) }}" link-name="{{ $element }}" />
+    @foreach($categoryNews as $el)
+        <x-blocks.card url="{{ route('news.news', ['name' => $el->category_name, 'id' => $el->id]) }}" link-name="{{ $el->title }}" />
     @endforeach
 @endsection

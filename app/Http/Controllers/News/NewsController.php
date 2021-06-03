@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\News;
 
 use App\Http\Controllers\Controller;
+use App\Models\News\Category;
+use App\Models\News\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -85,24 +87,29 @@ class NewsController extends Controller
 
     public function showAllCategory()
     {
+        $model = new Category();
+        $categories = $model->getAllCategories();
         return view('news.category', [
-            'category' => $this->newsCategory,
+            'category' => $categories,
         ]);
     }
 
     public function showCategoryNews(string $name)
     {
+        $model = new News();
+        $categoryNews = $model->getCategoryNews($name);
         return view('news.category_news', [
             'categoryName' => $name,
-            'categoryNews' => $this->newsList,
+            'categoryNews' => $categoryNews,
         ]);
     }
 
     public function showNews(string $name, int $id)
     {
+        $model = new News();
+        $news = $model->getNews($id);
         return view(('news.news'), [
-           'newsId' => $id,
-            'categoryName' => $name,
+            'news' => $news,
         ]);
     }
 }
