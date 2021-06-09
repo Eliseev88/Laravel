@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title') Admin - @parent @endsection
+@section('title') Admin/Order №{{ $order->id }} @parent @stop
 
 @section('content')
     <div class="container-fluid">
@@ -10,6 +10,8 @@
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">AdminPanel</h1>
                 </div>
+                <h3 class="text-white">Order №{{ $order->id }} comment:</h3>
+               <p class="lead text-white">{{ $order->comment }}</p>
             </main>
         </div>
     </div>

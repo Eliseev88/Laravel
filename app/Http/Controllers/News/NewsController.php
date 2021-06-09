@@ -87,27 +87,24 @@ class NewsController extends Controller
 
     public function showAllCategory()
     {
-        $model = new Category();
-        $categories = $model->getAllCategories();
         return view('news.category', [
-            'category' => $categories,
+            'category' => Category::all(),
         ]);
     }
 
-    public function showCategoryNews(string $name)
+    public function showCategoryNews(string $categoryName)
     {
-        $model = new News();
-        $categoryNews = $model->getCategoryNews($name);
+        $category = Category::where('category_name', $categoryName)->first();
+        $categoryNews = News::where('category_id', $category->id)->where('status', 'draft')->get();
         return view('news.category_news', [
-            'categoryName' => $name,
+            'categoryName' => $category,
             'categoryNews' => $categoryNews,
         ]);
     }
 
-    public function showNews(string $name, int $id)
+    public function showNews(string $categoryName, $newsId)
     {
-        $model = new News();
-        $news = $model->getNews($id);
+        $news = News::where(['id' => $newsId])->first();
         return view(('news.news'), [
             'news' => $news,
         ]);

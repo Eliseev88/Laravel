@@ -13,19 +13,12 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
+    protected $primaryKey = "id";
+    public $timestamps = false;
+    protected $fillable = ['category_name'];
 
-    public function getAllCategories(): \Illuminate\Support\Collection
+    public function news(): HasMany
     {
-        return DB::table($this->table)
-            ->select(['id', 'category_name'])
-            ->get();
-    }
-
-    public function getCategory(int $id): object
-    {
-        return DB::table($this->table)
-            ->select(['id', 'category'])
-            ->where(['id' => $id])
-            ->first();
+        return $this->hasMany(News::class, 'category_id', 'id');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\News\NewsController;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\AdminNewsController;
 use \App\Http\Controllers\Admin\AdminOrderController;
+use \App\Http\Controllers\Admin\AdminCategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,16 +35,9 @@ Route::group(['prefix' => 'category'], function () {
 
 //Admin
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', [AdminController::class, 'index'])
-        ->name('admin.index');
-    Route::match(['post', 'get'], '/create_news', [AdminNewsController::class, 'create'])
-        ->name('admin.create_news');
-    Route::match(['post', 'get'], '/create_order', [AdminOrderController::class, 'create'])
-        ->name('admin.create_order');
-    Route::post('/store_news', [AdminNewsController::class, 'store'])
-        ->name('admin.news_store');
-    Route::post('/store_order', [AdminOrderController::class, 'store'])
-        ->name('admin.order_store');
-
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::resource('/categories', AdminCategoryController::class);
+    Route::resource('/news', AdminNewsController::class);
+    Route::resource('/orders', AdminOrderController::class);
 });
 

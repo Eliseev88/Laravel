@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\News\News;
+use App\Models\News\Category;
 
 class AdminNewsController extends Controller
 {
@@ -15,7 +17,9 @@ class AdminNewsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.news.index', [
+            'newsList' => News::with('category')->orderBy('id', 'desc')->paginate('8'),
+        ]);
     }
 
     /**
@@ -25,7 +29,11 @@ class AdminNewsController extends Controller
      */
     public function create()
     {
-        return view('admin.create_news');
+        $categories = Category::all();
+
+        return view('admin.news.create', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -38,13 +46,18 @@ class AdminNewsController extends Controller
     {
         $request->validate([
             'title' => ['required'],
-            'description' => ['required']
+            'content' => ['required']
         ]);
         $title = $request->input('title');
-        $description = $request->input('description');
-        $fields = $request->only('title', 'description');
+        $description = $request->input('content');
+        $fields = $request->only('category_id', 'title', 'content', 'image');
         Storage::append('NewsFile/News.txt',
             'Title: '. $title . " Description: " . $description . " Date: " . date("Y-m-d H:i:s"));
+        $news = News::create($fields);
+        if ($news) {
+            return redirect()->route('news.index');
+        }
+        return back()->withInput();
     }
 
     /**
@@ -61,34 +74,47 @@ class AdminNewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
-        //
+        $categories = Category::all();
+        return view('admin.news.edit', [
+            'news' => $news,
+            'categories' => $categories
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+        $request->validate([
+            'title' => ['required']
+        ]);
+
+        $fields = $request->only('category_id', 'title', 'content', 'image', 'status');
+        $news = $news->fill($fields)->save();
+        if ($news) {
+            return redirect()->route('news.index');
+        }
+        return back()->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        $status = $news->delete();
+        if($status) {
+            return response()->json(['ok' => 'ok']);
+        }
     }
 }

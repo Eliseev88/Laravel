@@ -10,10 +10,12 @@ class MainController extends Controller
 {
     public function welcome()
     {
-        $model = new News();
-        $allNews = $model->getAllNews();
+        $news = News::with('category')
+            ->where(['status' => 'draft'])
+            ->orderBy('id', 'desc')
+            ->paginate(8);
         return view('welcome', [
-            'allNews' => $allNews,
+            'allNews' => $news,
         ]);
     }
 }

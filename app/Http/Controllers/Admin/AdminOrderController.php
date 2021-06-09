@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Orders\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Collection;
 
 class AdminOrderController extends Controller
 {
@@ -15,7 +17,9 @@ class AdminOrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.orders.index', [
+            'orders' => Order::orderBy('updated_at', 'desc')->paginate(10),
+        ]);
     }
 
     /**
@@ -25,7 +29,7 @@ class AdminOrderController extends Controller
      */
     public function create()
     {
-        return view('admin.create_order');
+        return view('admin.orders.create');
     }
 
     /**
@@ -39,26 +43,32 @@ class AdminOrderController extends Controller
         $request->validate([
             'name' => ['required'],
             'phone' => ['required'],
-            'mail' => ['required'],
+            'email' => ['required'],
             'comment' => ['required']
         ]);
         $name = $request->input('name');
         $phone = $request->input('phone');
         $mail = $request->input('mail');
-        $comment = $request->input('comment');
+        $fields = $request->only(['name', 'phone', 'email', 'comment']);
         Storage::append('NewsFile/Order.txt',
             ' Name: '. $name . " Phone: " . $phone . " Mail: " . $mail . " Phone: " . $phone . " " . date("Y-m-d H:i:s"));
+        $order = Order::create($fields);
+        if ($order) {
+            return redirect()->route('orders.index');
+        }
+        return back()->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        return view('admin.orders.show', [
+            'order' => $order,
+        ]);
     }
 
     /**
