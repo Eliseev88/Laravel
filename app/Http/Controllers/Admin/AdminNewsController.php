@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsCreate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\News\News;
@@ -42,12 +43,8 @@ class AdminNewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NewsCreate $request)
     {
-        $request->validate([
-            'title' => ['required'],
-            'content' => ['required']
-        ]);
         $title = $request->input('title');
         $description = $request->input('content');
         $fields = $request->only('category_id', 'title', 'content', 'image');

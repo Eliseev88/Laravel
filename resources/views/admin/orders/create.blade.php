@@ -21,14 +21,17 @@
                     <div class="form-group">
                         <label for="name">Name *</label>
                         <input class="form-control" type="text" name="name" id="name" value="{{ old('name') }}">
+                        @error('name') Invalid value @enderror
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone *</label>
                         <input class="form-control" type="tel" name="phone" id="phone" value="{{ old('phone') }}">
+                        @error('name') Invalid value @enderror
                     </div>
                     <div class="form-group">
                         <label for="email">E-mail *</label>
                         <input class="form-control" type="email" name="email" id="email" value="{{ old('mail') }}">
+                        @error('name') Invalid value @enderror
                     </div>
                     <div class="form-group">
                         <label for="comment">Comment *</label>
@@ -38,6 +41,7 @@
                                   id="comment"
                                   value="{{ old('comment') }}">
                         </textarea>
+                        @error('name') Invalid value @enderror
                     </div>
                     <br>
                     <button class="btn btn-success" type="submit">Make order</button>

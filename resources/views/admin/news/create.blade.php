@@ -38,10 +38,12 @@
                     <div class="form-group">
                         <label for="title">Title *</label>
                         <input class="form-control" type="text" name="title" id="title" value="{{ old('title') }}">
+                        @error('title') Incorrect value @enderror
                     </div>
                     <div class="form-group">
                         <label for="logo">Logo</label>
                         <input class="form-control" type="file" name="image" id="image">
+                        @error('image') Not support type @enderror
                     </div>
                     <div class="form-group">
                         <label for="description">Content *</label>
@@ -51,6 +53,7 @@
                                   id="content"
                                   value="{{ old('content') }}">
                         </textarea>
+                        @error('content') Required field @enderror
                     </div>
                     <br>
                     <button class="btn btn-success" type="submit">Add news</button>

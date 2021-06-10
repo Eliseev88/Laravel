@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoriesCreate;
 use Illuminate\Http\Request;
 use App\Models\News\Category;
 
@@ -36,12 +37,8 @@ class AdminCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoriesCreate $request)
     {
-        $request->validate([
-            'category_name' => ['required'],
-        ]);
-
         $categoryName = $request->only('category_name');
         $category = Category::create($categoryName);
         if ($category) {

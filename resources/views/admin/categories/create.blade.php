@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label for="category_name">Category name *</label>
                         <input type="text" class="form-control" name="category_name" id="category_name" value="{{ old('category_name') }}">
-                        @error('category name') Incorrect value @enderror
+                        @error('category_name') Incorrect value @enderror
                         @if($errors->has('category_name'))
                             <div class="alert alert-danger">
                                 @foreach($errors->get('category_name') as $error)
