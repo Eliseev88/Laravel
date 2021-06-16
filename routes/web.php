@@ -7,6 +7,7 @@ use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\AdminNewsController;
 use \App\Http\Controllers\Admin\AdminOrderController;
 use \App\Http\Controllers\Admin\AdminCategoryController;
+use \App\Http\Controllers\Account\IndexController as AccountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,10 +35,24 @@ Route::group(['prefix' => 'category'], function () {
 });
 
 //Admin
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], ], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);
     Route::resource('/orders', AdminOrderController::class);
 });
 
+//Account
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'account'], function () {
+        Route::get('/', AccountController::class)->name('account');
+        Route::get('/logout', function () {
+            \Auth::logout();
+            return redirect()->route('login');
+        })->name('account.logout');
+    });
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,16 +1,8 @@
-//Bootstrap
-@import "~bootstrap/scss/bootstrap";
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-html, body {
-    height: 100% !important;
-}
-body {
-    display: flex !important;
-    flex-direction: column !important;
-}
-.content {
-    flex: 1 0 auto !important;
-}
-.footer {
-    flex-shrink: 0 !important;
-}
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
