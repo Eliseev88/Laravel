@@ -19,6 +19,12 @@
                        href="{{ route('news.category') }}">Categories
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link
+                        @if(Illuminate\Support\Facades\Route::currentRouteName() == 'parse') active @endif"
+                       href="{{ route('parse') }}">YandexNews
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->

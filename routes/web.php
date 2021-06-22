@@ -53,6 +53,20 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+Route::get('/parse', [\App\Http\Controllers\ParseController::class, 'index'])->name('parse');
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('/facebook/', [\App\Http\Controllers\LoginController::class, 'loginFacebook'])
+        ->name('loginFacebook');
+    Route::get('/facebook/response', [\App\Http\Controllers\LoginController::class, 'responseFacebook'])
+        ->name('facebookResponse');
+    Route::get('/vk/', [\App\Http\Controllers\LoginController::class, 'loginVK'])
+        ->name('loginVK');
+    Route::get('/vk/response', [\App\Http\Controllers\LoginController::class, 'responseVK'])
+        ->name('vkResponse');
+
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
