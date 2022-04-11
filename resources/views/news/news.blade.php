@@ -1,13 +1,10 @@
 @extends('layout')
 
 @section('title')
-    News №{{ $newsId }}
-@endsection
-
-@section('nav2')
-    active
+    {{ $news->title }} - @parent
 @endsection
 
 @section('content')
-    This is the news №{{ $newsId }} of category {{ $categoryName }}
+   <h2>{{ $news->title }}</h2>
+    <p>{{ $news->content }}</p>
 @endsection

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\News;
 
 use App\Http\Controllers\Controller;
+use App\Models\News\Category;
+use App\Models\News\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -24,7 +26,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('news.create');
+
     }
 
     /**
@@ -86,23 +88,25 @@ class NewsController extends Controller
     public function showAllCategory()
     {
         return view('news.category', [
-            'category' => $this->newsCategory,
+            'category' => Category::all(),
         ]);
     }
 
-    public function showCategoryNews(string $name)
+    public function showCategoryNews(string $categoryName)
     {
+        $category = Category::where('category_name', $categoryName)->first();
+        $categoryNews = News::where('category_id', $category->id)->where('status', 'draft')->get();
         return view('news.category_news', [
-            'categoryName' => $name,
-            'categoryNews' => $this->newsList,
+            'categoryName' => $category,
+            'categoryNews' => $categoryNews,
         ]);
     }
 
-    public function showNews(string $name, int $id)
+    public function showNews(string $categoryName, $newsId)
     {
+        $news = News::where(['id' => $newsId])->first();
         return view(('news.news'), [
-           'newsId' => $id,
-            'categoryName' => $name,
+            'news' => $news,
         ]);
     }
 }

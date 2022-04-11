@@ -1,16 +1,12 @@
 @extends('layout')
 
 @section('title')
-@endsection
-
-@section('nav2')
-    active
+    Category News - @parent
 @endsection
 
 @section('content')
-    <h3 style="margin-bottom: 50px;">{{ $categoryName }}</h3>
-    @foreach($categoryNews as $key => $element)
-
-        <p><a href="{{ route('news.news', ['name' => $categoryName, 'id' => ++$key]) }}">{{ $element }}</a></p>
-    @endforeach
+        <h1 class="text-center display-1">{{ $categoryName->category_name }}</h1>
+        @foreach($categoryNews as $el)
+            <x-blocks.card url="{{ route('news.news', ['name' => $categoryName->category_name, 'id' => $el->id]) }}" link-name="{{ $el->title }}" />
+        @endforeach
 @endsection
